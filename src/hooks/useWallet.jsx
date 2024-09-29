@@ -13,7 +13,7 @@ const useWallet = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
-        if (accounts.length > 0) { // Check if accounts array is not empty
+        if (accounts.length > 0) { 
           setAccount(accounts[0]);
           handleNetworkChange();
           getBalance(accounts[0]);
