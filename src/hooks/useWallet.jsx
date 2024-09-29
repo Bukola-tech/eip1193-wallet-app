@@ -13,9 +13,13 @@ const useWallet = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
-        setAccount(accounts[0]);
-        handleNetworkChange();
-        getBalance(accounts[0]);
+        if (accounts.length > 0) { // Check if accounts array is not empty
+          setAccount(accounts[0]);
+          handleNetworkChange();
+          getBalance(accounts[0]);
+        } else {
+          setError('No accounts found. Please ensure your wallet is set up correctly.');
+        }
       } catch (err) {
         setError('Could not connect to wallet');
         console.error('Error connecting to wallet: ', err);
