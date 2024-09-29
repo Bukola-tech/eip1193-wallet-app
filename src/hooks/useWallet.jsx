@@ -80,7 +80,7 @@ const useWallet = () => {
 
       window.ethereum.on('chainChanged', () => {
         handleNetworkChange();
-        window.location.reload();
+      
       });
 
       return () => {
