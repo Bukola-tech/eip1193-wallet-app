@@ -43,6 +43,24 @@ const useWallet = () => {
     }
   }, []);
 
+  const getBalanceOfAddress = useCallback(async (address) => {
+    if (window.ethereum) {
+      try {
+        const balanceInWei = await window.ethereum.request({
+          method: 'eth_getBalance',
+          params: [address, 'latest'],
+        });
+        const balanceInEth = window.ethereum.utils
+          ? window.ethereum.utils.fromWei(balanceInWei, 'ether')
+          : balanceInWei / 1e18;
+        return balanceInEth; // Return the balance
+      } catch (err) {
+        setError('Failed to fetch balance for the address');
+        console.error('Error fetching balance for address: ', err);
+      }
+    }
+  }, []);
+
   const handleNetworkChange = useCallback(async () => {
     try {
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
@@ -78,7 +96,7 @@ const useWallet = () => {
     }
   }, [account, getBalance]);
 
-  return { account, balance, network, connectWallet, error };
+  return { account, balance, network, connectWallet, error ,getBalanceOfAddress};
 };
 
 export default useWallet;
